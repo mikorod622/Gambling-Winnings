@@ -1,0 +1,67 @@
+<!-- project.handlebars -->
+
+<div class="text-center">
+  <h2>{{name}}</h2>
+  <p>{{{get_emoji}}}</p>
+  <p>{{description}}</p>
+  <p>Created by {{user.name}} on {{format_date date_created}}</p>
+  <p>
+    <span for="img" aria-label="money">💲</span>
+    <span class="dollar-amount">{{format_amount needed_funding}}</span>
+    won
+  </p>
+  <p>
+    <button class="btn btn-primary">Gambling Winnings!</button>
+  </p>
+
+  <!-- Form to add a comment -->
+  <div class="comment-form">
+    <h3>Add a Comment:</h3>
+    <form class="new-comment-form" data-project-id="{{id}}">
+      <textarea id="comment-description" name="description" placeholder="Your comment" required></textarea>
+      <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+  </div>
+
+  <!-- Display comments -->
+  <div class="comments-section">
+    <h3>Comments:</h3>
+    {{#if comments}}
+      <ul class="comment-list">
+        {{#each comments as |comment|}}
+        <li>
+          <strong>{{comment.user.name}}:</strong> {{comment.description}} ({{format_date comment.date_created}})
+        </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p>No comments available</p>
+    {{/if}}
+  </div>
+</div>
+
+<script>
+  document.querySelector('.new-comment-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+  
+    const description = document.querySelector('#comment-description').value.trim();
+    const projectId = event.target.getAttribute('data-project-id');
+  
+    if (description) {
+      const response = await fetch(`/api/comment`, {
+        method: 'POST',
+        body: JSON.stringify({ description, project_id: projectId }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        document.location.reload();
+      } else {
+        alert('Failed to add comment');
+      }
+    }
+  });
+  
+</script>

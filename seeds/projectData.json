@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Poker",
+    "description": "Im getting better at counting cards.",
+    "needed_funding": 1000
+  },
+  {
+    "name": "Slot Machine",
+    "description": "I'm pretty lucky Today!",
+    "needed_funding": 200
+  },
+  {
+    "name": "Black Jack",
+    "description": "Im still up.",
+    "needed_funding": -200
+  }
+]
