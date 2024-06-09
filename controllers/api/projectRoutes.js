@@ -35,4 +35,32 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
+// Update project by ID
+router.post('/:id', withAuth, async (req, res) => {
+  try {
+    // Find the project by ID
+    const project = await Project.findByPk(req.params.id);
+
+    // If the project doesn't exist, return a 404 error
+    if (!project) {
+      res.status(404).json({ message: 'Project not found' });
+      return;
+    }
+
+    // Update the project details
+    project.name = req.body.name;
+    project.description = req.body.description;
+    project.needed_funding = req.body.needed_funding;
+
+    // Save the changes to the database
+    await project.save();
+
+    // Return a success response
+    res.status(200).json({ message: 'Project updated successfully' });
+  } catch (err) {
+    // Return a 500 error if there's an internal server error
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

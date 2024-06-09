@@ -6,19 +6,19 @@
 
 <div class="row mt-4">
   <div class="col-md-6">
-    <h3>What did you win?:</h3>
+    <h3>Add New Winning:</h3>
 
     <form class="form new-project-form">
       <div class="form-group">
-        <label for="project-name">game name:</label>
+        <label for="project-name">Game Name:</label>
         <input class="form-input" type="text" id="project-name" name="project-name" />
       </div>
       <div class="form-group">
-        <label for="project-funding">money won ($):</label>
+        <label for="project-funding">Money Won ($):</label>
         <input class="form-input" type="number" id="project-funding" name="project-funding" />
       </div>
       <div class="form-group">
-        <label for="project-desc">description:</label>
+        <label for="project-desc">Description:</label>
         <textarea class="form-input" id="project-desc" name="project-desc"></textarea>
       </div>
       <div class="form-group">
@@ -27,21 +27,41 @@
     </form>
   </div>
 
-  {{#if projects.length}}
-  <div class="col-md-6 project-list">
-    <h3>Current Winnings:</h3>
 
-    {{#each projects as |project|}}
-    <div class="row mb-2">
-      <div class="col-md-8">
-        <h4><a href="/project/{{project.id}}">{{project.name}}</a></h4>
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{project.id}}">DELETE</button>
-      </div>
+  {{#if projects.length}}
+    <div class="col-md-6 project-list">
+      <h3>Current Winnings:</h3>
+
+      <!-- Iterate over each project -->
+      {{#each projects as |project|}}
+        <div class="row mb-2">
+          <div class="col-md-8">
+            <!-- Form for updating the project -->
+            <form class="form update-project-form" data-id="{{project.id}}">
+              <div class="form-group">
+                <label for="project-name">Name:</label>
+                <input class="form-input" type="text" id="project-name" name="project-name" value="{{project.name}}" />
+              </div>
+              <div class="form-group">
+                <label for="project-funding">Money Won ($):</label>
+                <input class="form-input" type="number" id="project-funding" name="project-funding" value="{{project.needed_funding}}" />
+              </div>
+              <div class="form-group">
+                <label for="project-desc">Description:</label>
+                <textarea class="form-input" id="project-desc" name="project-desc">{{project.description}}</textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Update</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4">
+            <!-- Button to delete the project -->
+            <button class="btn btn-sm btn-danger delete-project-btn" data-id="{{project.id}}">DELETE</button>
+          </div>
+        </div>
+      {{/each}}
     </div>
-    {{/each}}
-  </div>
   {{/if}}
 </div>
 
